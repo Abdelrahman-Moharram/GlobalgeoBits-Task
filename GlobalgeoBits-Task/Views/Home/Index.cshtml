@@ -1,0 +1,105 @@
+﻿@model ProductListViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center position-relative" style="min-height:40vh">
+    <table class="table">
+        @* <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+        </thead> *@
+
+        <tbody class="">
+            
+                
+                @if (Model.Products?.Count() > 0 )
+                {
+                    
+                    @* <input type="number" class="form-control w-50" hidden name="Products[@(i)].Id" value="@(Model.Products[i]?.Id)" /> *@
+                    <tr>
+                        <td class="fw-bold">Name</td>
+                        @for(var i = 0; i < Model.size && i < Model.Products.Count(); i++)
+                        {
+                            <td>@(Model.Products[i]?.Name)</td>
+                        }
+                    </tr>
+                     
+                    <tr>
+                        <td class="fw-bold">Brand </td>
+
+                        @for(var i = 0; i < Model.size && i < Model.Products.Count(); i++)
+                        {
+                            <td>@(Model.Products[i]?.Brand)</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Model</td>
+
+                        @for(var i = 0; i < Model.size && i < Model.Products.Count(); i++)
+                        {
+                            <td>@(Model.Products[i]?.Model)</td>
+                        }
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">Color</td>
+
+                        @for(var i = 0; i < Model.size && i < Model.Products.Count(); i++)
+                        {
+                            <td>@(Model.Products[i]?.Color)</td>
+                        }
+                    </tr>
+                    <tr class="">
+                        <td class="fw-bold">Price</td>
+
+                        <form method="post" asp-action="Update" >
+                            <input type="number" name="page" value="@Model.Page" hidden />
+
+                            @for (var i = 0; i < Model.size && i < Model.Products.Count(); i++)
+                            {
+                                <input type="number" class="form-control w-50" hidden name="Products[@(i)].Id" value="@(Model.Products[i]?.Id)" />
+                                <td  class=""><input type="number" class="mx-auto form-control w-50" name="Products[@(i)].Price" value="@(Model.Products[i]?.Price)" /></td>
+                            }
+
+                            <div class="d-flex justify-content-end my-3 position-absolute bottom-0 end-0">
+                                <button class="btn btn-primary" type="submit">Save</button>
+                            </div>
+                        </form>
+                        @* <td><input type="number" class="form-control w-50" name="Products[@(i)].Price" value="@(Model.Products[i]?.Price)" /></td> *@
+                    </tr>
+                }
+        </tbody>
+
+
+    </table>
+
+
+    
+</div>
+
+
+<div class="d-flex justify-content-center" style="margin-top:100px">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            @if (Model.Page > 1)
+            {
+                <li class="page-item"><a class="page-link" href="?page=@(Model.Page-1)&size=3">Previous</a></li>
+            }
+            <li class="page-item"><a class="page-link bg-secondary text-white" href="">@Model.Page</a></li>
+
+            @for (var i = Model.Page + 1; i < Model.Page + 3 && i <= Model.TotalPages; i++)
+            {
+                <li class="page-item"><a class="page-link" href="?page=@i&size=3">@i</a></li>
+            }
+            @if (Model.Page < Model.TotalPages)
+            {
+                <li class="page-item"><a class="page-link" href="?page=@(Model.Page+1)&size=3">Next</a></li>
+            }
+        </ul>
+    </nav>
+</div>
